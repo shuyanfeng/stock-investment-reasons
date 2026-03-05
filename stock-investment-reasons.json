@@ -1,0 +1,102 @@
+{
+  "name": "stock_investment_reasons",
+  "description": "Returns the top 5 reasons to invest in a publicly traded stock. Accepts a company name or ticker symbol and fetches live web data to produce ranked, evidence-backed investment rationale. Use this when the user asks why they should invest in a stock, wants a bull case for a company, or requests an investment analysis for a specific equity.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "stock": {
+        "type": "string",
+        "description": "The stock to analyze. Accepts a ticker symbol (e.g., 'AAPL', 'MSFT', 'TSLA') or a company name (e.g., 'Apple', 'Microsoft', 'Tesla'). Case-insensitive."
+      }
+    },
+    "required": ["stock"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "Structured investment analysis for the requested stock.",
+    "properties": {
+      "ticker": {
+        "type": "string",
+        "description": "Resolved uppercase ticker symbol (e.g., 'AAPL')."
+      },
+      "company_name": {
+        "type": "string",
+        "description": "Full legal name of the company (e.g., 'Apple Inc.')."
+      },
+      "reasons": {
+        "type": "array",
+        "description": "Exactly 5 investment reasons, ordered by significance.",
+        "minItems": 5,
+        "maxItems": 5,
+        "items": {
+          "type": "object",
+          "properties": {
+            "rank": {
+              "type": "integer",
+              "description": "Rank of this reason (1 = most compelling).",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "title": {
+              "type": "string",
+              "description": "Short, specific label for this investment thesis (e.g., 'Services revenue growing 14% YoY')."
+            },
+            "explanation": {
+              "type": "string",
+              "description": "2–3 sentences elaborating on the reason with concrete data points, percentages, or market context."
+            }
+          },
+          "required": ["rank", "title", "explanation"]
+        }
+      },
+      "generated_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "ISO 8601 UTC timestamp of when the analysis was generated."
+      },
+      "disclaimer": {
+        "type": "string",
+        "description": "Legal disclaimer. Always present. This output is not financial advice."
+      }
+    },
+    "required": ["ticker", "company_name", "reasons", "generated_at", "disclaimer"]
+  },
+  "examples": [
+    {
+      "input": { "stock": "AAPL" },
+      "output": {
+        "ticker": "AAPL",
+        "company_name": "Apple Inc.",
+        "reasons": [
+          {
+            "rank": 1,
+            "title": "Services segment growing at 14% YoY with 1B+ paid subscriptions",
+            "explanation": "Apple's Services revenue reached $24.2B in Q1 FY2025, growing 14% year-over-year. With over 1 billion paid subscriptions across Apple TV+, iCloud, Apple Music, and the App Store, Services now carries ~75% gross margins, far exceeding hardware margins and reducing cyclicality."
+          },
+          {
+            "rank": 2,
+            "title": "Installed base of 2.2B active devices creates durable switching costs",
+            "explanation": "Apple's ecosystem of 2.2 billion active devices drives high switching costs and recurring revenue through the App Store, accessories, and software. Users deeply embedded in the Apple ecosystem rarely migrate, providing Apple with pricing power and predictable upgrade cycles."
+          },
+          {
+            "rank": 3,
+            "title": "Industry-leading capital return program: $110B buyback authorized",
+            "explanation": "Apple authorized a $110B share repurchase in 2024, one of the largest in corporate history. Combined with dividends, Apple has returned over $800B to shareholders since 2012, reducing share count by ~40% and significantly boosting EPS growth."
+          },
+          {
+            "rank": 4,
+            "title": "Apple Intelligence positions company at forefront of on-device AI",
+            "explanation": "Apple Intelligence, integrated across iOS 18, macOS Sequoia, and newer hardware, delivers AI features without sending data to the cloud—a privacy-first differentiator. Analysts expect AI-driven upgrade cycles to lift iPhone ASPs and accelerate the installed base refresh."
+          },
+          {
+            "rank": 5,
+            "title": "Financial fortress: $62B net cash and >25% free cash flow margin",
+            "explanation": "Apple generated $108B in free cash flow in FY2024, a 25%+ FCF margin on revenue. With $62B in net cash, Apple has ample firepower for acquisitions, R&D, and buybacks while remaining highly resilient to economic downturns."
+          }
+        ],
+        "generated_at": "2025-03-05T12:00:00Z",
+        "disclaimer": "For informational purposes only. Not financial advice. Always conduct your own due diligence."
+      }
+    }
+  ]
+}
