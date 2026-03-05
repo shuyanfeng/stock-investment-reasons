@@ -1,7 +1,6 @@
 {
   "functions": {
     "api/stock-investment-reasons.py": {
-      "runtime": "python3.12",
       "maxDuration": 60
     }
   }
