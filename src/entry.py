@@ -156,3 +156,4 @@ class Default(WorkerEntrypoint):
             return _json_response(502, {"error": "Failed to parse model response as JSON", "detail": str(e)})
         except Exception as e:
             return _json_response(500, {"error": str(e)})
+
